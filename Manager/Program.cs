@@ -13,14 +13,14 @@ namespace Manager
         {
             List<Manager> managerList = new List<Manager>();
             string sql = "Data Source=DESKTOP-0MT6QTG;Initial Catalog=Manager;Integrated Security=True;Pooling=False";
-            AllManagerIn(sql);
+            //AllManagerIn(sql);
 
-            AddingNewManger(sql);
+            //AddingNewManger(sql);
 
 
-            //UpdateInTable(1, sql);
+            //UpdateInTable(sql);
 
-            //DeleteFromTable(2, sql);
+            DeleteFromTable(2, sql);
 
 
         }
@@ -90,22 +90,24 @@ namespace Manager
 
         }
 
-        private static void UpdateInTable(int id, string stringConnection)
+        private static void UpdateInTable(string stringConnection)
         {
 
 
-            Console.WriteLine("Enter fullName , yearOfBirth ,email, payment");
+            Console.WriteLine("Enter fullName , yearOfBirth ,email, payment ,and id");
             string fullName = Console.ReadLine();
             string yearOfBirth = Console.ReadLine();
             string email = Console.ReadLine();
             int payment = int.Parse(Console.ReadLine());
-            using (SqlConnection connection = new SqlConnection())
+            int idFromUser = int.Parse(Console.ReadLine());
+
+            using (SqlConnection connection = new SqlConnection(stringConnection))
             {
                 connection.Open();
-                string query = $@"UPDATE Manager SET id = '{id}' name = '{fullName}' dateOfBirth = '{yearOfBirth}' email = '{email}' payment = '{payment}', WHERE Employee.id = { id}";
+                string query = $@"UPDATE Manager SET name = '{fullName}' , dateBirth = '{yearOfBirth}', email = '{email}', payment = '{payment}' WHERE Id = {idFromUser}";
                 SqlCommand commend = new SqlCommand(query, connection);
                 int updatToTable = commend.ExecuteNonQuery();
-                connection.Close();
+                connection.Close(); 
             }
 
 
@@ -119,7 +121,7 @@ namespace Manager
                 using (SqlConnection connection = new SqlConnection(stringConnection))
                 {
                     connection.Open();
-                    string query = $@"DELETE FROM Manager WHERE Employee.Id = {id}";
+                    string query = $@"DELETE FROM Manager WHERE Id = {id}";
                     SqlCommand commend = new SqlCommand(query, connection);
                     int delete = commend.ExecuteNonQuery();
                     connection.Close();
